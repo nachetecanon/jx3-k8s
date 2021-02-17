@@ -37,7 +37,7 @@ jxRequirements:
   - key: staging
   - key: production
   ingress:
-    domain: p-i.net
+    domain: rke-devops.p-i.net
     externalDNS: false
     kind: ingress
     namespaceSubDomain: -tekton-pipelines.

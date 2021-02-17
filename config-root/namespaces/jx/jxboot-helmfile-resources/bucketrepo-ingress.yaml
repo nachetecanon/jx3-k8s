@@ -16,4 +16,4 @@ spec:
               serviceName: bucketrepo
               servicePort: 80
             path: "/"
-      host: bucketrepo-jx.p-i.net
+      host: bucketrepo-jx.rke-devops.p-i.net

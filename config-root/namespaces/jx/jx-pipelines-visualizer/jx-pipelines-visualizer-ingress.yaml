@@ -17,7 +17,7 @@ metadata:
   namespace: jx
 spec:
   rules:
-    - host: dashboard-jx.p-i.net
+    - host: dashboard-jx.rke-devops.p-i.net
       http:
         paths:
           - backend:

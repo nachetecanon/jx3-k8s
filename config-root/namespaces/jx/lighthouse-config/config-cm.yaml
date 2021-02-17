@@ -41,7 +41,7 @@ data:
         - needs-rebase
         repos:
         - nachetecanon/jx3-k8s
-      target_url: http://dashboard-jx.p-i.net
+      target_url: http://dashboard-jx.rke-devops.p-i.net
 kind: ConfigMap
 metadata:
   creationTimestamp: null

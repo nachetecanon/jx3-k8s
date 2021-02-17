@@ -1,7 +1,7 @@
 # Source: jxboot-helmfile-resources/templates/ingress-config-configmap.yaml
 apiVersion: v1
 data:
-  domain: "p-i.net"
+  domain: "rke-devops.p-i.net"
   email: ""
   exposer: "Ingress"
   issuer: ""
