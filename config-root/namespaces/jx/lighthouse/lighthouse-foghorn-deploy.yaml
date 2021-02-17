@@ -1,0 +1,75 @@
+# Source: lighthouse/templates/foghorn-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lighthouse-foghorn
+  labels:
+    draft: draft-app
+    chart: "lighthouse-0.0.934"
+    app: lighthouse-foghorn
+    gitops.jenkins-x.io/pipeline: 'namespaces'
+  namespace: jx
+  annotations:
+    wave.pusher.com/update-on-config-change: 'true'
+    jenkins-x.io/hash: '2f6f74f6fe8e02baab23a4026fd4bd74a31140411adf8ab01a708cbc18ff43e2'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      draft: draft-app
+      app: lighthouse-foghorn
+  template:
+    metadata:
+      labels:
+        draft: draft-app
+        app: lighthouse-foghorn
+    spec:
+      serviceAccountName: lighthouse-foghorn
+      containers:
+        - name: lighthouse-foghorn
+          image: gcr.io/jenkinsxio/lighthouse-foghorn:0.0.934
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--namespace=jx"
+          env:
+            - name: "GIT_KIND"
+              value: "github"
+            - name: "GIT_SERVER"
+              value: "https://github.com"
+            - name: "GIT_USER"
+              value: nachete.canon
+            - name: "GIT_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: lighthouse-oauth-token
+                  key: oauth
+            - name: "HMAC_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: "lighthouse-hmac-token"
+                  key: hmac
+                  optional: false
+            - name: "JX_LOG_FORMAT"
+              value: "json"
+            - name: "LOGRUS_FORMAT"
+              value: "json"
+            - name: DEFAULT_PIPELINE_RUN_SERVICE_ACCOUNT
+              value: "tekton-bot"
+            - name: DEFAULT_PIPELINE_RUN_TIMEOUT
+              value: "2h0m0s"
+            - name: FILE_BROWSER
+              value: "git"
+            - name: JX_DEFAULT_IMAGE
+              value: "gcr.io/jenkinsxio/builder-maven:2.1.142-761"
+            - name: LIGHTHOUSE_DASHBOARD_TEMPLATE
+              value: "namespaces/{{ .Namespace }}/pipelineruns/{{ .PipelineRun }}"
+            - name: LIGHTHOUSE_VERSIONSTREAM_JENKINS_X_JX3_PIPELINE_CATALOG
+              value: "2ea7ea51f84f56b4aa0890faded495cbeedf68c4"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 80m
+              memory: 128Mi
+      terminationGracePeriodSeconds: 180
